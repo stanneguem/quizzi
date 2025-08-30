@@ -5,13 +5,18 @@ import 'package:quizzi/views/pages/HomeScreen.dart';
 import 'package:quizzi/views/pages/PLAYERSETUPSCREEN.dart';
 import 'package:quizzi/views/pages/SETTINGSSCREEN.dart';
 
+import 'controllers/themecontroler.dart';
+import 'models/theme/clair.dart';
+import 'models/theme/sombre.dart';
+
 void main() {
+  Get.put(ThemeController());
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  final ThemeController controller = Get.find<ThemeController>();
+  MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -19,10 +24,9 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Todo App avec GetX',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: controller.isDark.value ? ThemeMode.light : ThemeMode.dark,
           initialRoute: "/",
           getPages: [
             GetPage(name: "/", page: () =>  Homescreen()),

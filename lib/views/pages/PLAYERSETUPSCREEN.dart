@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:math';
+
+import '../../controllers/themecontroler.dart';
+import '../../models/theme/clair.dart';
+import '../../models/theme/sombre.dart';
 
 class GameSetupPage extends StatefulWidget {
   const GameSetupPage({super.key});
@@ -22,6 +27,7 @@ class _GameSetupPageState extends State<GameSetupPage> {
     {'id': '9CT', 'title': 'Voyage'},
     {'id': '10CT', 'title': 'Mode'},
   ];
+  final ThemeController themeController = Get.find<ThemeController>();
 
   // number of players is limited to categories.length - 1 (reserve one category)
   late int _minPlayers;
@@ -168,13 +174,13 @@ class _GameSetupPageState extends State<GameSetupPage> {
                 height: 150,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: themeController.isDark.value ?  darkTheme.cardColor : lightTheme.cardColor,
                     borderRadius: BorderRadius.circular(15)
                 ),
-                child: Text('Combien de participants ?', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600))
+                child: Text('Combien de participants ?', style: themeController.isDark.value ?  darkTheme.textTheme.bodyLarge : lightTheme.textTheme.bodyLarge,)
             ),
             const SizedBox(height: 8),
-            Text('Maximum: $_maxPlayers (nombre de catégories - 1)'),
+            Text('Maximum: $_maxPlayers (nombre de catégories - 1)', style: themeController.isDark.value ?  darkTheme.textTheme.bodyLarge : lightTheme.textTheme.bodyLarge,),
             const SizedBox(height: 12),
             Row(
               children: [
@@ -197,7 +203,7 @@ class _GameSetupPageState extends State<GameSetupPage> {
               ],
             ),
             const SizedBox(height: 20),
-            Text('Remarque : Deux joueurs ne peuvent pas choisir la même catégorie.',textAlign: TextAlign.center ,style: TextStyle(color: Colors.grey[600])),
+            Text('Remarque : Deux joueurs ne peuvent pas choisir la même catégorie.',textAlign: TextAlign.center ,style: themeController.isDark.value ?  darkTheme.textTheme.bodyLarge : lightTheme.textTheme.bodyLarge,),
           ],
         ),
         Positioned(
@@ -209,7 +215,7 @@ class _GameSetupPageState extends State<GameSetupPage> {
             width: 80,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: themeController.isDark.value ?  darkTheme.scaffoldBackgroundColor : lightTheme.scaffoldBackgroundColor,
                 shape: BoxShape.circle
             ),
           ),
@@ -226,7 +232,7 @@ class _GameSetupPageState extends State<GameSetupPage> {
                 color: Colors.green,
                 shape: BoxShape.circle
             ),
-            child: Text('$_numberOfPlayers'),
+            child: Text('$_numberOfPlayers', style: themeController.isDark.value ?  darkTheme.textTheme.bodyLarge : lightTheme.textTheme.bodyLarge,),
           ),
         ),
       ],
@@ -419,6 +425,7 @@ class _GameSetupPageState extends State<GameSetupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: themeController.isDark.value ?  darkTheme.scaffoldBackgroundColor : lightTheme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Configurer la partie'),
         actions: [
@@ -456,6 +463,7 @@ class _GameSetupPageState extends State<GameSetupPage> {
             if (_currentStep > 0)
               Expanded(
                 child: OutlinedButton(
+                  style: themeController.isDark.value ?  darkTheme.elevatedButtonTheme.style : lightTheme.elevatedButtonTheme.style,
                   onPressed: () {
                     setState(() {
                       _currentStep = max(0, _currentStep - 1);
@@ -467,6 +475,7 @@ class _GameSetupPageState extends State<GameSetupPage> {
             if (_currentStep > 0) const SizedBox(width: 12),
             Expanded(
               child: ElevatedButton(
+                style: themeController.isDark.value ?  darkTheme.elevatedButtonTheme.style : lightTheme.elevatedButtonTheme.style,
                 onPressed: () {
                   setState(() {
                     if (_currentStep < 2) {
